@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+streamlit
+moviepy==1.0.3
+imageio
+imageio-ffmpeg
+numpy
+librosa
+tqdm
+decorator
+=======
+streamlit
+moviepy==1.0.3
+imageio
+imageio-ffmpeg
+numpy
+librosa
+tqdm
+decorator
+>>>>>>> 2963ea68f03dd5445959e8c678caa4c4384c6b84
