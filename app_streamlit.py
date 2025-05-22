@@ -4,9 +4,8 @@ from moviepy.editor import VideoFileClip
 import librosa
 import numpy as np
 import tempfile
-import urllib.parse
 
-st.title("📽 動画ハイライト自動生成アプリ（SNS共有付き・1本制限）")
+st.title("📽 動画ハイライト自動生成アプリ（Render対応・1本制限版）")
 
 uploaded_file = st.file_uploader("動画ファイルをアップロード (mp4)", type="mp4")
 
@@ -69,16 +68,7 @@ if uploaded_file is not None:
                     output_path = os.path.join(tmpdir, f"highlight_{i+1}.mp4")
                     clip.write_videofile(output_path, codec="libx264", audio=True, audio_codec="aac", verbose=False, logger=None)
 
-                    st.video(output_path)
-
-                    # SNS共有用セクション
-                    st.subheader("📤 SNS投稿内容（任意）")
-                    user_text = st.text_area("投稿文やハッシュタグを入力（X向け）", height=100)
-                    encoded_text = urllib.parse.quote(user_text)
-                    if st.button("Xに投稿（リンクを開く）"):
-                        x_url = f"https://twitter.com/intent/tweet?text={encoded_text}"
-                        st.markdown(f"[→ Xで投稿する]({x_url})", unsafe_allow_html=True)
-
+                    st.video(output_path)  # パス指定で表示
                 except Exception as e:
                     st.error(f"❌ ハイライト動画 #{i+1} の生成に失敗しました")
                     st.code(str(e), language="python")
