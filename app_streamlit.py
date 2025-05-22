@@ -5,7 +5,7 @@ import librosa
 import numpy as np
 import tempfile
 
-st.title("📽 動画ハイライト自動生成アプリ（Render対応・改良版）")
+st.title("📽 動画ハイライト自動生成アプリ（Render対応・修正版）")
 
 uploaded_file = st.file_uploader("動画ファイルをアップロード (mp4)", type="mp4")
 
@@ -68,9 +68,7 @@ if uploaded_file is not None:
                     output_path = os.path.join(tmpdir, f"highlight_{i+1}.mp4")
                     clip.write_videofile(output_path, codec="libx264", audio=True, audio_codec="aac", verbose=False, logger=None)
 
-                    with open(output_path, "rb") as f:
-                        video_bytes = f.read()
-                    st.video(video_bytes)
+                    st.video(output_path)  # 修正ポイント：パスをそのまま渡す
                 except Exception as e:
                     st.error(f"❌ ハイライト動画 #{i+1} の生成に失敗しました")
                     st.code(str(e), language="python")
@@ -80,4 +78,3 @@ if uploaded_file is not None:
         except Exception as e:
             st.error("❌ 処理全体でエラーが発生しました")
             st.code(str(e), language="python")
-
