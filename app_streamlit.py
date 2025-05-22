@@ -47,3 +47,4 @@ if uploaded_file is not None:
         except Exception as e:
             st.error("❌ エラーが発生しました")
             st.code(str(e), language="python")
+
