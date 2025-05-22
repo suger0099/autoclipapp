@@ -5,7 +5,7 @@ import librosa
 import numpy as np
 import tempfile
 
-st.title("📽 動画ハイライト自動生成アプリ（Render対応・フル版）")
+st.title("📽 動画ハイライト自動生成アプリ（Render対応・改良版）")
 
 uploaded_file = st.file_uploader("動画ファイルをアップロード (mp4)", type="mp4")
 
@@ -20,7 +20,7 @@ if uploaded_file is not None:
             audio_path = os.path.join(tmpdir, "audio.wav")
             video = VideoFileClip(video_path)
             st.write("🔍 音声を抽出中...")
-            video.audio.write_audiofile(audio_path)
+            video.audio.write_audiofile(audio_path, verbose=False, logger=None)
 
             st.write("🔍 音声特徴を抽出中...")
             y, sr = librosa.load(audio_path, sr=22050)
@@ -67,8 +67,10 @@ if uploaded_file is not None:
                     clip = video.subclip(start, end)
                     output_path = os.path.join(tmpdir, f"highlight_{i+1}.mp4")
                     clip.write_videofile(output_path, codec="libx264", audio=True, audio_codec="aac", verbose=False, logger=None)
+
                     with open(output_path, "rb") as f:
-                        st.video(f.read())
+                        video_bytes = f.read()
+                    st.video(video_bytes)
                 except Exception as e:
                     st.error(f"❌ ハイライト動画 #{i+1} の生成に失敗しました")
                     st.code(str(e), language="python")
